@@ -40,3 +40,20 @@ main = hspec $ do
                      Declare (AlexPn 11 1 12),
                      Int (AlexPn 14 1 15) 1
                    ]
+
+    it "returns tokens for function declaration" $
+      do
+        alexScanTokens "function f(x: int): string = {}"
+        `shouldBe` [ Function (AlexPn 0 1 1),
+                     Id (AlexPn 9 1 10) "f",
+                     LParen (AlexPn 10 1 11),
+                     Id (AlexPn 11 1 12) "x",
+                     Colon (AlexPn 12 1 13),
+                     Id (AlexPn 14 1 15) "int",
+                     RParen (AlexPn 17 1 18),
+                     Colon (AlexPn 18 1 19),
+                     Id (AlexPn 20 1 21) "string",
+                     Assign (AlexPn 27 1 28),
+                     LBrace (AlexPn 29 1 30),
+                     RBrace (AlexPn 30 1 31)
+                   ]
