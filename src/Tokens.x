@@ -10,10 +10,13 @@ $alpha = [a-zA-Z]
 tokens :-
     $white+                       ;
     "--".*                        ;
+    var                           { tok (\p s -> Var p)}
     let                           { tok (\p s -> Let p) }
     in                            { tok (\p s -> In p) }
     $digit+                       { tok (\p s -> Int p (read s)) }
+    :=                            { tok (\p s -> Declare p)}
     ==                            { tok (\p s -> Eq p) }
+    :                             { tok (\p s -> Colon p)}
     \/                            { tok (\p s -> Divide p) }
     \*                            { tok (\p s -> Times p) }
     \-                            { tok (\p s -> Minus p) }
@@ -26,10 +29,13 @@ tokens :-
 tok f p s = f p s
 
 data Token =
+    Var AlexPosn        |
     Let AlexPosn        |
     In  AlexPosn        |
     Assign AlexPosn     |
+    Declare AlexPosn    |
     Eq AlexPosn         |
+    Colon AlexPosn      |
     Divide AlexPosn     |
     Times AlexPosn      |
     Minus AlexPosn      |

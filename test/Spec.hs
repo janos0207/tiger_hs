@@ -29,3 +29,14 @@ main = hspec $ do
                        4,
                      RParen (AlexPn 14 1 15)
                    ]
+
+    it "returns tokens for variable declaration" $
+      do
+        alexScanTokens "var x: int := 1"
+        `shouldBe` [ Var (AlexPn 0 1 1),
+                     Id (AlexPn 4 1 5) "x",
+                     Colon (AlexPn 5 1 6),
+                     Id (AlexPn 7 1 8) "int",
+                     Declare (AlexPn 11 1 12),
+                     Int (AlexPn 14 1 15) 1
+                   ]
